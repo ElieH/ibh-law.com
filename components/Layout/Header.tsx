@@ -68,6 +68,19 @@ const Header: React.FC = () => {
   }, []);
 
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [mobileMenuOpen]);
+
+
 
   const navLinks = [
     { name: t('nav.home'), href: '/#home' }, // Always go to home
@@ -87,7 +100,7 @@ const Header: React.FC = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 border-b ${isScrolled || location.pathname !== '/'
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 border-b ${isScrolled || mobileMenuOpen || location.pathname !== '/'
         ? 'bg-white/95 backdrop-blur-md shadow-sm py-2 border-stone-200'
         : 'bg-gradient-to-b from-black/20 to-transparent py-4 border-transparent'
         }`}
@@ -98,11 +111,11 @@ const Header: React.FC = () => {
           {/* 
                 We use a white background on the logo when scrolled to ensure contrast if the logo is transparent.
             */}
-          <div className={`transition-all duration-300 ${isScrolled || location.pathname !== '/' ? 'bg-transparent' : ''} rounded p-1`}>
+          <div className={`transition-all duration-300 ${isScrolled || mobileMenuOpen || location.pathname !== '/' ? 'bg-transparent' : ''} rounded p-1`}>
             <img
               src={`${import.meta.env.BASE_URL}logo.png`}
               alt="Illana Bensoussan Hayot Law Office"
-              className={`transition-all duration-300 ${isScrolled || location.pathname !== '/' ? 'h-14 md:h-16' : 'h-20 md:h-24'} w-auto object-contain`}
+              className={`transition-all duration-300 ${isScrolled || mobileMenuOpen || location.pathname !== '/' ? 'h-14 md:h-16' : 'h-20 md:h-24'} w-auto object-contain`}
             />
           </div>
         </Link>
@@ -117,7 +130,7 @@ const Header: React.FC = () => {
                   key={link.name}
                   href={link.href} // Keep href for semantics/SEO
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`cursor-pointer text-sm font-medium tracking-wide transition-colors duration-300 ${isScrolled || location.pathname !== '/'
+                  className={`cursor-pointer text-sm font-medium tracking-wide transition-colors duration-300 ${isScrolled || mobileMenuOpen || location.pathname !== '/'
                     ? 'text-stone-600 hover:text-brand-red'
                     : 'text-white/90 hover:text-white hover:scale-105 shadow-black/10 drop-shadow-sm'
                     }`}
@@ -128,13 +141,13 @@ const Header: React.FC = () => {
             })}
           </div>
 
-          <div className={`w-px h-6 mx-2 ${isScrolled || location.pathname !== '/' ? 'bg-stone-300' : 'bg-white/30'}`}></div>
+          <div className={`w-px h-6 mx-2 ${isScrolled || mobileMenuOpen || location.pathname !== '/' ? 'bg-stone-300' : 'bg-white/30'}`}></div>
 
           <div className="flex items-center gap-4">
             {/* Language Switcher */}
             <button
               onClick={toggleLanguage}
-              className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border transition-all ${isScrolled || location.pathname !== '/'
+              className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border transition-all ${isScrolled || mobileMenuOpen || location.pathname !== '/'
                 ? 'text-stone-600 border-stone-200 hover:border-brand-red hover:text-brand-red'
                 : 'text-white border-white/30 hover:bg-white/10'
                 }`}
@@ -145,7 +158,7 @@ const Header: React.FC = () => {
 
             <a
               href="tel:+972526348809"
-              className={`flex items-center gap-2 text-sm font-semibold transition-colors ${isScrolled || location.pathname !== '/' ? 'text-brand-red hover:text-brand-gold' : 'text-white hover:text-brand-gold'
+              className={`flex items-center gap-2 text-sm font-semibold transition-colors ${isScrolled || mobileMenuOpen || location.pathname !== '/' ? 'text-brand-red hover:text-brand-gold' : 'text-white hover:text-brand-gold'
                 }`}
             >
               <Phone size={16} />
@@ -154,7 +167,7 @@ const Header: React.FC = () => {
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, '#contact')}
-              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-lg cursor-pointer ${isScrolled || location.pathname !== '/'
+              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-lg cursor-pointer ${isScrolled || mobileMenuOpen || location.pathname !== '/'
                 ? 'bg-brand-red text-white hover:bg-brand-dark'
                 : 'bg-white text-brand-red hover:bg-stone-100'
                 }`}
@@ -187,7 +200,7 @@ const Header: React.FC = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 bg-white/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center p-8 animate-in fade-in duration-200">
+        <div className="fixed inset-0 bg-white/95 backdrop-blur-xl z-40 flex flex-col items-center justify-start pt-32 pb-8 px-8 animate-in fade-in duration-200 h-[100dvh] overflow-y-auto">
           <div className="flex flex-col gap-6 text-center w-full max-w-sm">
             {navLinks.map((link) => {
               return (
