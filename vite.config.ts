@@ -6,8 +6,9 @@ export default defineConfig(({ mode }) => {
   // Load env file based on `mode` in the current working directory.
   // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
   const env = loadEnv(mode, process.cwd(), '');
-  
+
   return {
+    base: '/ibh-law.com/', // Change to '/' if using a custom domain
     plugins: [react()],
     define: {
       // Polyfill process.env for the app's usage of process.env.API_KEY
