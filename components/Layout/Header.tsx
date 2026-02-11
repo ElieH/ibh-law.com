@@ -1,13 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone, Mail, Globe } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
+    e.preventDefault();
+
+    // Check if it's a route (starts with /) and not a hash link (e.g., /#home)
+    // Actually, our navLinks have '/#home', '#expertise', '/blog'.
+
+    if (href.startsWith('/#')) {
+      // Special case for home anchor
+      const targetId = href.split('#')[1];
+      if (location.pathname === '/' || location.pathname === '') {
+        const element = document.getElementById(targetId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          setIsScrolled(window.scrollY > 20); // Re-check scroll
+        }
+      } else {
+        // Navigate to home, then scroll (simulated by just going to home for now)
+        navigate('/');
+        // In a real app, use a context or url param to trigger scroll after nav
+        setTimeout(() => {
+          const element = document.getElementById(targetId);
+          if (element) element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    } else if (href.startsWith('#')) {
+      // Just anchor
+      const targetId = href.substring(1);
+      if (location.pathname === '/' || location.pathname === '') {
+        const element = document.getElementById(targetId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        navigate('/');
+        setTimeout(() => {
+          const element = document.getElementById(targetId);
+          if (element) element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    } else if (href.startsWith('/')) {
+      // Standard route
+      navigate(href);
+      window.scrollTo(0, 0);
+    }
+
+    setMobileMenuOpen(false);
+  };
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,12 +67,7 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Helper to determine accurate href
-  const getHref = (href: string) => {
-    if (href.startsWith('/')) return href; // Already a route
-    if (location.pathname !== '/' && href.startsWith('#')) return `/${href}`; // On subpage, need to go home first
-    return href; // On home, just scroll
-  };
+
 
   const navLinks = [
     { name: t('nav.home'), href: '/#home' }, // Always go to home
@@ -32,9 +77,7 @@ const Header: React.FC = () => {
     { name: t('nav.contact'), href: '#contact' },
   ];
 
-  const handleMobileNavClick = () => {
-    setMobileMenuOpen(false);
-  };
+
 
   const toggleLanguage = () => {
     if (language === 'en') setLanguage('fr');
@@ -57,7 +100,7 @@ const Header: React.FC = () => {
             */}
           <div className={`transition-all duration-300 ${isScrolled || location.pathname !== '/' ? 'bg-transparent' : ''} rounded p-1`}>
             <img
-              src="/public/logo.png"
+              src={`${import.meta.env.BASE_URL}logo.png`}
               alt="Illana Bensoussan Hayot Law Office"
               className={`transition-all duration-300 ${isScrolled || location.pathname !== '/' ? 'h-14 md:h-16' : 'h-20 md:h-24'} w-auto object-contain`}
             />
@@ -69,31 +112,19 @@ const Header: React.FC = () => {
           <div className="flex gap-6">
             {navLinks.map((link) => {
               const isRoute = link.href.startsWith('/');
-              const finalHref = getHref(link.href);
-
-              return isRoute ? (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className={`text-sm font-medium tracking-wide transition-colors duration-300 ${isScrolled || location.pathname !== '/'
-                    ? 'text-stone-600 hover:text-brand-red'
-                    : 'text-white/90 hover:text-white hover:scale-105 shadow-black/10 drop-shadow-sm'
-                    }`}
-                >
-                  {link.name}
-                </Link>
-              ) : (
+              return (
                 <a
                   key={link.name}
-                  href={finalHref}
-                  className={`text-sm font-medium tracking-wide transition-colors duration-300 ${isScrolled || location.pathname !== '/'
+                  href={link.href} // Keep href for semantics/SEO
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={`cursor-pointer text-sm font-medium tracking-wide transition-colors duration-300 ${isScrolled || location.pathname !== '/'
                     ? 'text-stone-600 hover:text-brand-red'
                     : 'text-white/90 hover:text-white hover:scale-105 shadow-black/10 drop-shadow-sm'
                     }`}
                 >
                   {link.name}
                 </a>
-              )
+              );
             })}
           </div>
 
@@ -121,8 +152,9 @@ const Header: React.FC = () => {
               <span className="hidden lg:inline">+972 52-634-8809</span>
             </a>
             <a
-              href={getHref('#contact')}
-              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-lg ${isScrolled || location.pathname !== '/'
+              href="#contact"
+              onClick={(e) => handleNavClick(e, '#contact')}
+              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-lg cursor-pointer ${isScrolled || location.pathname !== '/'
                 ? 'bg-brand-red text-white hover:bg-brand-dark'
                 : 'bg-white text-brand-red hover:bg-stone-100'
                 }`}
@@ -158,27 +190,16 @@ const Header: React.FC = () => {
         <div className="fixed inset-0 bg-white/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center p-8 animate-in fade-in duration-200">
           <div className="flex flex-col gap-6 text-center w-full max-w-sm">
             {navLinks.map((link) => {
-              const isRoute = link.href.startsWith('/');
-              const finalHref = getHref(link.href);
-              return isRoute ? (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className="text-2xl font-serif font-medium text-stone-800 hover:text-brand-red py-2 border-b border-stone-100"
-                  onClick={handleMobileNavClick}
-                >
-                  {link.name}
-                </Link>
-              ) : (
+              return (
                 <a
                   key={link.name}
-                  href={finalHref}
-                  className="text-2xl font-serif font-medium text-stone-800 hover:text-brand-red py-2 border-b border-stone-100"
-                  onClick={handleMobileNavClick}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="cursor-pointer text-2xl font-serif font-medium text-stone-800 hover:text-brand-red py-2 border-b border-stone-100"
                 >
                   {link.name}
                 </a>
-              )
+              );
             })}
             <div className="mt-8 flex flex-col gap-4">
               <a href="tel:+972526348809" className="flex items-center justify-center gap-3 text-stone-600 font-medium bg-stone-50 py-4 rounded-lg">
