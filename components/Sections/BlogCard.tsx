@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BlogPost } from '../services/contentful';
+import { BlogPost } from '../../services/contentful';
 import { Layout } from 'lucide-react';
 
 interface BlogCardProps {

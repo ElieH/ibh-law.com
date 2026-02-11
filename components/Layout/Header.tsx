@@ -111,7 +111,7 @@ const Header: React.FC = () => {
         <nav className="hidden md:flex items-center gap-8">
           <div className="flex gap-6">
             {navLinks.map((link) => {
-              const isRoute = link.href.startsWith('/');
+
               return (
                 <a
                   key={link.name}
