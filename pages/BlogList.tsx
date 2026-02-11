@@ -17,16 +17,18 @@ const BlogList: React.FC = () => {
     }, []);
 
     return (
-        <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+        <div className="bg-brand-cream min-h-screen py-16 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
-                <div className="text-center mb-12">
-                    <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">Latest Updates</h1>
-                    <p className="mt-4 text-xl text-gray-600">News, insights, and legal updates.</p>
+                <div className="text-center mb-16">
+                    <h2 className="text-brand-gold font-bold tracking-widest uppercase text-sm mb-3">BLOG & RESOURCES</h2>
+                    <h1 className="font-serif text-4xl text-brand-dark font-bold mb-6">Latest Updates</h1>
+                    <div className="w-24 h-1 bg-brand-red mx-auto rounded-full mb-6"></div>
+                    <p className="mt-4 text-xl text-stone-600 max-w-2xl mx-auto">News, insights, and legal updates.</p>
                 </div>
 
                 {loading ? (
                     <div className="flex justify-center items-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-red"></div>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -38,7 +40,7 @@ const BlogList: React.FC = () => {
 
                 {!loading && posts.length === 0 && (
                     <div className="text-center py-12">
-                        <p className="text-gray-500">No posts found. Check your Contentful setup.</p>
+                        <p className="text-stone-500">No posts found. Check your Contentful setup.</p>
                     </div>
                 )}
             </div>

@@ -41,34 +41,35 @@ const BlogPostPage: React.FC = () => {
     const imageUrl = coverImage?.fields.file.url;
 
     // Custom renderer options for Rich Text
+    // Custom renderer options for Rich Text
     const options = {
         renderMark: {
-            [MARKS.BOLD]: (text: any) => <b className="font-bold text-gray-900">{text}</b>,
-            [MARKS.ITALIC]: (text: any) => <i className="italic text-gray-800">{text}</i>,
-            [MARKS.UNDERLINE]: (text: any) => <u className="underline decoration-blue-400 decoration-2">{text}</u>,
-            [MARKS.CODE]: (text: any) => <code className="bg-gray-100 rounded px-1 py-0.5 text-sm font-mono text-red-600">{text}</code>,
+            [MARKS.BOLD]: (text: any) => <b className="font-bold text-brand-dark">{text}</b>,
+            [MARKS.ITALIC]: (text: any) => <i className="italic text-brand-dark">{text}</i>,
+            [MARKS.UNDERLINE]: (text: any) => <u className="underline decoration-brand-gold decoration-2 text-brand-dark">{text}</u>,
+            [MARKS.CODE]: (text: any) => <code className="bg-stone-100 rounded px-1 py-0.5 text-sm font-mono text-brand-red">{text}</code>,
         },
         renderNode: {
-            [BLOCKS.HEADING_1]: (_: any, children: any) => <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mt-10 mb-6">{children}</h1>,
-            [BLOCKS.HEADING_2]: (_: any, children: any) => <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-10 mb-4 border-b pb-2 border-gray-100">{children}</h2>,
-            [BLOCKS.HEADING_3]: (_: any, children: any) => <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mt-8 mb-3">{children}</h3>,
-            [BLOCKS.HEADING_4]: (_: any, children: any) => <h4 className="text-lg font-semibold text-gray-900 mt-6 mb-2">{children}</h4>,
-            [BLOCKS.PARAGRAPH]: (_: any, children: any) => <p className="mb-4 leading-relaxed text-gray-700 text-lg">{children}</p>,
-            [BLOCKS.UL_LIST]: (_: any, children: any) => <ul className="list-disc pl-6 mb-6 space-y-2 text-gray-700">{children}</ul>,
-            [BLOCKS.OL_LIST]: (_: any, children: any) => <ol className="list-decimal pl-6 mb-6 space-y-2 text-gray-700">{children}</ol>,
+            [BLOCKS.HEADING_1]: (_: any, children: any) => <h1 className="text-3xl sm:text-4xl font-serif font-bold text-brand-dark mt-10 mb-6">{children}</h1>,
+            [BLOCKS.HEADING_2]: (_: any, children: any) => <h2 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark mt-10 mb-4 border-b pb-2 border-stone-100">{children}</h2>,
+            [BLOCKS.HEADING_3]: (_: any, children: any) => <h3 className="text-xl sm:text-2xl font-serif font-semibold text-brand-dark mt-8 mb-3">{children}</h3>,
+            [BLOCKS.HEADING_4]: (_: any, children: any) => <h4 className="text-lg font-serif font-semibold text-brand-dark mt-6 mb-2">{children}</h4>,
+            [BLOCKS.PARAGRAPH]: (_: any, children: any) => <p className="mb-4 leading-relaxed text-stone-700 text-lg">{children}</p>,
+            [BLOCKS.UL_LIST]: (_: any, children: any) => <ul className="list-disc pl-6 mb-6 space-y-2 text-stone-700 marker:text-brand-gold">{children}</ul>,
+            [BLOCKS.OL_LIST]: (_: any, children: any) => <ol className="list-decimal pl-6 mb-6 space-y-2 text-stone-700 marker:text-brand-gold font-medium">{children}</ol>,
             [BLOCKS.LIST_ITEM]: (_: any, children: any) => <li className="pl-2">{children}</li>,
             [BLOCKS.QUOTE]: (_: any, children: any) => (
-                <blockquote className="border-l-4 border-blue-600 pl-4 py-2 my-6 bg-gray-50 italic text-gray-800 rounded-r-lg">
+                <blockquote className="border-l-4 border-brand-gold pl-4 py-2 my-6 bg-brand-cream italic text-brand-dark rounded-r-lg shadow-sm">
                     {children}
                 </blockquote>
             ),
-            [BLOCKS.HR]: () => <hr className="my-10 border-gray-200" />,
+            [BLOCKS.HR]: () => <hr className="my-10 border-stone-200" />,
             [INLINES.HYPERLINK]: (node: any, children: any) => (
                 <a
                     href={node.data.uri}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 underline transition-colors"
+                    className="text-brand-red hover:text-brand-gold underline transition-colors font-medium decoration-brand-red/30 hover:decoration-brand-gold"
                 >
                     {children}
                 </a>
@@ -80,29 +81,29 @@ const BlogPostPage: React.FC = () => {
                         <img
                             src={`https:${file.url}`}
                             alt={title || "Blog Image"}
-                            className="w-full h-auto rounded-lg shadow-md"
+                            className="w-full h-auto rounded-xl shadow-lg border border-stone-100"
                         />
-                        {title && <p className="text-sm text-center text-gray-500 mt-2 italic">{title}</p>}
+                        {title && <p className="text-sm text-center text-stone-500 mt-2 italic">{title}</p>}
                     </div>
                 );
             },
             [BLOCKS.TABLE]: (_: any, children: any) => (
-                <div className="overflow-x-auto my-8 rounded-lg border border-gray-200 shadow-sm">
+                <div className="overflow-x-auto my-8 rounded-lg border border-stone-200 shadow-sm">
                     <table className="w-full border-collapse table-auto">
-                        <tbody className="divide-y divide-gray-200 bg-white">{children}</tbody>
+                        <tbody className="divide-y divide-stone-200 bg-white">{children}</tbody>
                     </table>
                 </div>
             ),
             [BLOCKS.TABLE_ROW]: (_: any, children: any) => (
-                <tr className="hover:bg-gray-50 transition-colors">{children}</tr>
+                <tr className="hover:bg-brand-cream/50 transition-colors">{children}</tr>
             ),
             [BLOCKS.TABLE_HEADER_CELL]: (_: any, children: any) => (
-                <th className="px-4 py-3 bg-gray-100 text-left text-xs font-bold text-gray-800 uppercase tracking-wider border-r border-gray-200 last:border-r-0 border-b">
+                <th className="px-4 py-3 bg-stone-100 text-left text-xs font-bold text-stone-800 uppercase tracking-wider border-r border-stone-200 last:border-r-0 border-b">
                     {children}
                 </th>
             ),
             [BLOCKS.TABLE_CELL]: (_: any, children: any) => (
-                <td className="px-4 py-4 text-sm text-gray-700 border-r border-gray-200 last:border-r-0 break-words">
+                <td className="px-4 py-4 text-sm text-stone-700 border-r border-stone-200 last:border-r-0 break-words">
                     {children}
                 </td>
             ),
@@ -115,7 +116,7 @@ const BlogPostPage: React.FC = () => {
                     textSegment.split(' ').map((word, i) => {
                         const urlRegex = /^(https?:\/\/[^\s]+)/g;
                         if (urlRegex.test(word)) {
-                            return <a key={i} href={word} className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">{word} </a>;
+                            return <a key={i} href={word} className="text-brand-red hover:text-brand-gold underline" target="_blank" rel="noopener noreferrer">{word} </a>;
                         }
                         return <span key={i}>{word} </span>;
                     })
@@ -125,7 +126,7 @@ const BlogPostPage: React.FC = () => {
     };
 
     return (
-        <div className="bg-white min-h-screen pb-20">
+        <div className="bg-brand-cream min-h-screen pb-20">
             {/* Hero Image */}
             {imageUrl && (
                 <div className="w-full h-64 md:h-96 relative">
@@ -134,27 +135,28 @@ const BlogPostPage: React.FC = () => {
                         alt={title}
                         className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-black/30"></div>
+                    <div className="absolute inset-0 bg-black/40"></div>
                 </div>
             )}
 
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-20 relative z-10">
-                <div className="bg-white rounded-xl shadow-lg p-8 sm:p-12">
-                    <Link to="/blog" className="inline-flex items-center text-sm text-gray-500 hover:text-blue-600 mb-6 transition-colors">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 -mt-20 relative z-10">
+                <div className="bg-white rounded-xl shadow-xl p-8 sm:p-12 border border-stone-100">
+                    <Link to="/blog" className="inline-flex items-center text-sm text-stone-500 hover:text-brand-red mb-8 transition-colors uppercase tracking-wide font-medium">
                         <ArrowLeft className="w-4 h-4 mr-2" />
-                        Back to Blog
+                        Back to Updates
                     </Link>
 
-                    <header className="mb-8">
-                        <p className="text-sm text-blue-600 font-medium mb-2">
+                    <header className="mb-10 text-center">
+                        <div className="inline-block px-3 py-1 bg-brand-cream rounded-full text-brand-gold text-xs font-bold tracking-widest uppercase mb-4">
                             {new Date(publishedDate).toLocaleDateString()}
-                        </p>
-                        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
+                        </div>
+                        <h1 className="text-3xl sm:text-5xl font-serif font-bold text-brand-dark leading-tight mb-6">
                             {title}
                         </h1>
+                        <div className="w-20 h-1 bg-brand-red mx-auto rounded-full"></div>
                     </header>
 
-                    <article className="max-w-none">
+                    <article className="max-w-none prose prose-lg prose-stone prose-headings:font-serif prose-headings:text-brand-dark prose-a:text-brand-red hover:prose-a:text-brand-light">
                         {documentToReactComponents(content, options)}
                     </article>
                 </div>
