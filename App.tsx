@@ -7,7 +7,7 @@ import Contact from './components/Sections/Contact';
 import Footer from './components/Layout/Footer';
 
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import BlogList from './pages/BlogList';
 import BlogPostPage from './pages/BlogPost';
 
