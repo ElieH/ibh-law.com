@@ -2,12 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { BlogPost } from '../../services/contentful';
 import { Layout } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface BlogCardProps {
     post: BlogPost;
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
+    const { t } = useLanguage();
     const { title, slug, coverImage, publishedDate } = post.fields;
     const imageUrl = coverImage?.fields.file.url;
 
@@ -35,7 +37,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => {
                     {title}
                 </h3>
                 <div className="flex items-center text-brand-red text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                    Read Article →
+                    {t('blog.readMore')}
                 </div>
             </div>
         </Link>

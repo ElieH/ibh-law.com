@@ -16,6 +16,14 @@ export const translations = {
             consultation: "Consultation",
             blog: "Blog"
         },
+        blog: {
+            tag: "BLOG & RESOURCES",
+            title: "Latest Updates",
+            subtitle: "News, insights, and legal updates.",
+            readMore: "Read Article →",
+            noPosts: "No posts found. Check your Contentful setup.",
+            back: "Back to Updates"
+        },
         services: {
             title: "Practice Areas",
             subtitle: "Dedicated Legal Solutions",
@@ -110,6 +118,14 @@ export const translations = {
             consultation: "Consultation",
             blog: "Blog"
         },
+        blog: {
+            tag: "BLOG & RESSOURCES",
+            title: "Dernières Actualités",
+            subtitle: "Nouvelles, perspectives et mises à jour juridiques.",
+            readMore: "Lire l'Article →",
+            noPosts: "Aucun article trouvé. Vérifiez votre configuration Contentful.",
+            back: "Retour aux Actualités"
+        },
         services: {
             title: "Domaines d'Intervention",
             subtitle: "Solutions Juridiques Dédiées",
@@ -203,6 +219,14 @@ export const translations = {
             contact: "צור קשר",
             consultation: "ייעוץ",
             blog: "בלוג"
+        },
+        blog: {
+            tag: "בלוג ומשאבים",
+            title: "עדכונים אחרונים",
+            subtitle: "חדשות, תובנות ועדכונים משפטיים.",
+            readMore: "קרא עוד ←",
+            noPosts: "לא נמצאו פוסטים. בדוק את הגדרות Contentful שלך.",
+            back: "חזרה לעדכונים"
         },
         services: {
             title: "תחומי עיסוק",

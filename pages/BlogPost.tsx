@@ -3,10 +3,12 @@ import { useParams, Link } from 'react-router-dom';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { getBlogPostBySlug, BlogPost } from '../services/contentful';
 import { ArrowLeft } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 import { BLOCKS, MARKS, INLINES } from '@contentful/rich-text-types';
 
 const BlogPostPage: React.FC = () => {
+    const { t } = useLanguage();
     const { slug } = useParams<{ slug: string }>();
     const [post, setPost] = useState<BlogPost | null>(null);
     const [loading, setLoading] = useState(true);
@@ -143,7 +145,7 @@ const BlogPostPage: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-xl p-8 sm:p-12 border border-stone-100">
                     <Link to="/blog" className="inline-flex items-center text-sm text-stone-500 hover:text-brand-red mb-8 transition-colors uppercase tracking-wide font-medium">
                         <ArrowLeft className="w-4 h-4 mr-2" />
-                        Back to Updates
+                        {t('blog.back')}
                     </Link>
 
                     <header className="mb-10 text-center">
